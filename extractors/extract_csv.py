@@ -1,4 +1,5 @@
 import sys
+import CSV_IO as csvio
 from lxml import etree
 
 def get_attribs(row, attrib_names, parser):
@@ -11,25 +12,26 @@ def get_attribs(row, attrib_names, parser):
     if result.tag == 'row':
       for attrib in attrib_names:
         if attrib in result.keys():
-          values.append('\"{}\"'.format(result.attrib[attrib].encode('utf-8')))
+          values.append(unicode(result.attrib[attrib], "utf-8"))
         else:
-          values.append('\"\"')
+          values.append('')
   return values
 
 if len(sys.argv) >= 2:
   parser = etree.XMLParser()
   attribs_num = len(sys.argv)-1
   attrib_names = sys.argv[-attribs_num:]
-  attrib_names_str = map(lambda x: '\"{}\"'.format(x), attrib_names)
 
+  csv_writer = csvio.UnicodeWriter(sys.stdout)
   #Printing HEADER
-  print ','.join(attrib_names_str)
+  csv_writer.writerow(attrib_names)
   #Printing DATA
   for line in sys.stdin:
     values = get_attribs(line, attrib_names, parser)
     if len(values)==attribs_num:
-      print ','.join(values)
+      csv_writer.writerow(values)
 else:
-  print '''This script expects a list of Attrbutes to be extracted from a StackExchange\'s XML
-           dumpfile. The XML itself will be received in the STDIN and the OUTPUT will be printed
-           line by line in the STDOUT.'''
+  print '''This script is a basic data extractor to StackExchange\'s XML dumpfiles.
+           INPUT: a space sepated list of attributes to be extracted from the XML 
+                  (the XML is readed from STDIN)
+           OUTPUT: attributes on a CSV formatted line-by-line in the STDOUT.'''
