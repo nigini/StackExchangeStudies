@@ -12,7 +12,7 @@ def get_attribs(row, attrib_names, parser):
     if result.tag == 'row':
       for attrib in attrib_names:
         if attrib in result.keys():
-          values.append(unicode(result.attrib[attrib], "utf-8"))
+          values.append(result.attrib[attrib])
         else:
           values.append('')
   return values
