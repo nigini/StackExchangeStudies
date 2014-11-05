@@ -13,7 +13,7 @@ if len(sys.argv) == 1:
       count_map[row[0]]=1
 
   for key in count_map.keys():
-    csv_writer.writerow([key,count_map[key]])
+    csv_writer.writerow([key,str(count_map[key])])
 
 else:
   print '''This script is a simple CSV count reducer, meaning:
