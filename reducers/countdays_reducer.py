@@ -2,7 +2,7 @@ import sys
 import CSV_IO as csvio
 from datetime import datetime
 
-if len(sys.argv) == 3:
+if len(sys.argv) == 2:
   csv_reader = csvio.UnicodeReader(sys.stdin)
   csv_writer = csvio.UnicodeWriter(sys.stdout)
   #base_date = datetime.strptime(sys.argv[1],'%Y-%m-%d')
